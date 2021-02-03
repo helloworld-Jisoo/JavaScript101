@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Window Size</title>
+  <style>
+    .tag{
+      display:inline-block;
+      font-size: 32px;
+      padding: 16px;
+      background-color: #FF9A8B;
+      background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+      
+    }
+  </style>
+</head>
+<body>
+  <div class="tag"> Window Size
+  </div>
+  <script>
+    const tag = document.querySelector('.tag');
+    function updateTag(){
+      tag.innerHTML = `
+      window.screen: ${window.screen.width}, ${window.screen.height}<br/>
+      window.outer: ${window.outerWidth}, ${window.outerHeight}<br/>
+      window.inner: ${window.innerWidth}, ${window.innerHeight}<br/>
+      document.documentElement.clientWidth: ${document.documentElement.clientWidth}, ${document.documentElement.clientHeight}
+      `;
+    }
+    // call the callback function everytime resize the browser
+    window.addEventListener('resize', ()=> { 
+      updateTag();
+    });
+    
+    updateTag();// 브라우저가 실행되면 제일 먼저 실행됨 
+  </script>
+</body>
+</html>

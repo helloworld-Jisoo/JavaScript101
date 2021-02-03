@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coordinate</title>
+  <style>
+    body{
+      background-color: rgb(0, 0, 0);
+      /* overflow:hidden; 스크롤방지*/
+    } 
+    div {
+      width:200px;
+      height:200px;
+      background-color: wheat;
+      margin-bottom: 5px;
+    }
+    .red {
+      background-color: firebrick;
+      cursor:pointer;
+    }
+    aside{
+       position: fixed;
+       top:20px;
+       right:20px;
+  }
+    button{
+      font-size: 12px;
+      font-weight: bold;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div class="red"></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <aside class="buttons">
+    <button class="scroll-by">scroll by 100px(y)</button>
+    <button class="scroll-to">scroll to 100px(y)</button>
+    <button class="into-red">scrool into red</button>
+  </aside>
+  <script>
+    const red = document.querySelector('.red');
+    red.addEventListener('click', (event) => {
+      const rect = red.getBoundingClientRect();
+      console.log(rect);
+      console.log(`client: ${event.clientX} ${event.clientY}`)
+      console.log(`page: ${event.pageX} ${event.pageY}`)
+    });
+
+  const scrollBy = document.querySelector('.scroll-by');
+  const scrollTo = document.querySelector('.scroll-to');
+  const scrollRed = document.querySelector('.into-red');
+  scrollBy.addEventListener('click',(event)=> {
+    window.scrollBy({top: 100, left: 0, behavior:"smooth"});
+  })
+  scrollTo.addEventListener('click', (event) => {
+    window.scrollTo(0, 100);
+  })
+  scrollRed.addEventListener('click', (event) => {
+    red.scrollIntoView();
+  })
+  </script>
+</body>
+</html>

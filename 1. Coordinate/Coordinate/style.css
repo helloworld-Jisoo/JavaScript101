@@ -2,6 +2,7 @@ body {
   font-family: "Courier New", Courier, monospace;
   background-color: black;
   color: white;
+  margin: 0;
 }
 .line {
   position: absolute; /* 원하는곳에 자유자재로 바꿀수있도록 */
@@ -10,25 +11,20 @@ body {
 .X {
   width: 100%;
   height: 1px;
-  top: 50%;
 }
 .Y {
   height: 100%;
   width: 1px;
-  left: 50%;
 }
 .target {
   position: absolute;
-  top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .tag {
   color: white;
   position: absolute;
-  top: 50%;
-  left: 50%;
   transform: translate(20px, 20px);
   font-size: 24px;
+  margin: 20px;
 }

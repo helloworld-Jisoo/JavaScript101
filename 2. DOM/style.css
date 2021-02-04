@@ -4,14 +4,17 @@
 }
 * {
   margin: 0;
+  box-sizing: border-box;
+}
+ul {
   padding: 0;
-  box-sizing: auto;
 }
 body {
   font-family: "Montserrat", sans-serif;
   width: 100%;
   height: 100vh;
-  background-image: linear-gradient(to top, #c71d6f 0%, #d09693 100%);
+  /*background-image: linear-gradient(to top, #c71d6f 0%, #d09693 100%);#*/
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,60 +24,75 @@ body {
   height: 667px;
   background-color: white;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 30px;
+  box-shadow: inset;
+  -webkit-box-shadow: 10px 7px 6px 0px #000000;
+  box-shadow: 10px 7px 6px 0px #000000;
 }
 
 header > i {
   color: var(--pink);
   font-size: 3em;
   margin: 30px 10px;
+  text-shadow: 1px 1px 2px black;
 }
 
 header > p {
   font-size: 2em;
   font-weight: 700;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   margin-left: 20px;
   color: var(--pink);
+  text-shadow: 1px 1px 2px black;
 }
 
-.content {
-  font-size: 1em;
-  width: 90%;
-  height: 50%;
-  margin: auto;
+.items {
+  height: 330px;
+  overflow: auto;
 }
-ul {
-  display: flex;
-  flex-direction: column;
-}
-li {
-  list-style: none;
+
+.item {
   display: flex;
   justify-content: space-between;
-  margin: 5px;
+  padding: 8px 32px;
 }
-li > i:hover {
-  color: var(--pink);
+.item__divider {
+  width: 90%;
+  height: 1px;
+  background-color: salmon;
+  margin: auto;
+}
+.item__delete {
   cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 300ms ease-in;
 }
-.form {
+
+.item__delete:hover {
+  color: var(--pink);
+  transform: scale(1.5);
+}
+
+.footer {
   display: flex;
   flex-direction: column;
 }
-
 input {
-  margin: 20px 10px;
   border: none;
   font-family: inherit;
   font-size: 1em;
+  margin: 15px 10px;
 }
 input:focus {
   outline: none;
 }
 
-button {
+.add {
   border: none;
+  outline: none;
   border-radius: 10px;
   height: 50px;
   background-color: var(--pink);

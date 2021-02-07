@@ -7,10 +7,13 @@ const popUp = document.querySelector(".pop-up");
 playBtn.addEventListener('click', () => {
 // PLAYBTN -> STOPBTN
   // STOPBTN CLICK -> GAME OVER
+// DISPALY TIMER & REMAIN
+timer.style.display = "block";
+remain.style.display = "block";
 // TIMER SET (countdown) 
 countdown();
   // REMAIN SET 
-   remain.textContent = 10;
+   remain.textContent = 5;
   // RANDOM POSITIONING BUGS AND CARROTS
 
 createBug();
@@ -46,7 +49,7 @@ function countdown(){
     }
     timer.value = 11 - timeleft;
     timeleft -= 1;  
-    timer.innerText =  timeleft;
+    timer.innerText =  `0:${timeleft}`;
   }, 1000)
   setTimeout(function () {
     popUp.setAttribute("class", "pop-up");
@@ -57,8 +60,8 @@ function countdown(){
     const bugs = new Image(50,50);
     bugs.src = "img/bug.png";
     field.appendChild(bugs);
-    const max_width = field.clientWidth;
-    const max_height = field.clientHeight;
+    const max_width = field.clientWidth-80;
+    const max_height = field.clientHeight-80;
     let x = Math.floor(Math.random() * Math.floor(max_width));
     let y = Math.floor(Math.random() * Math.floor(max_height));
     bugs.style.position = "absolute";

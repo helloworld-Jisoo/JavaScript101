@@ -1,15 +1,63 @@
 'use strict';
 
+const CARROT_COUNT = 5;
+const BUG_COUNT = 5;
 const ITEM_MAX_SIZE = 80; //carrot image size = 80x80px
+// DOM 요소 받아오기
+const playBtn = document.querySelector('.playbtn');
+const remain = document.querySelector('.remain');
+const timer = document.querySelector('.timer');
 const field = document.querySelector('.playground');
 // field 의 size, position 가져오기
 const fieldRect = field.getBoundingClientRect();
 
+// 게임의 상태를 기억하고 있는 변수가 있어야 함 (게임 시작 전)
+let started = false;
+let score = 0;
+let time = undefined;
+
+playBtn.addEventListener('click', ()=>{
+  // 만약 게임이 시작이 되었다면, 게임을 중지해야 하고 게임이 시작되지 않았다면 게임을 시작해야함.
+  if(started) {
+    stopGame();
+  } else {
+    startGame();
+  }
+  started = !started; // started를 반대로 할당해주기
+})
+
+function startGame(){
+  // 게임이 시작 되었을 떄 벌레와 당근을 생성
+  initGame();
+  showStopBtn();
+  showTimerAndRemain();
+}
+
+function stopGame(){
+
+}
+
+// play button -> stop button
+function showStopBtn(){
+  const icon = document.querySelector('.fa-play');
+  // play icon에 있는 class 를 받아와서 stop icon class 추가
+  icon.classList.add('fa-stop');
+  // 그리고 나서 play icon 제거
+  icon.classList.remove('fa-play');
+}
+
+function showTimerAndRemain(){
+  // display none으로 하면 render tree에서 빠지므로 field size에 영향을 줄 수 있음
+timer.style.visibility = "visible";
+remain.style.visibility = "visible";
+}
 function initGame(){
+  field.innerHTML = '';// field의 HTML 을 초기화시켜줘서 게임을 리셋시켜줌
+  remain.innerText = CARROT_COUNT; // Remain 갯수 셋팅
+
   // 벌레와 당근을 생성한 뒤 field에 추가해준다
-  console.log(fieldRect);
-  addItem('carrot',5,'img/carrot.png');
-  addItem('bug',5,'img/bug.png');
+  addItem('carrot',CARROT_COUNT,'img/carrot.png');
+  addItem('bug',BUG_COUNT,'img/bug.png');
 }
 
 // * 함수+인자설정 으로 동일한 일을 할 수 있도록 만들어줌(createBug,createCarrot과 같이 함수를 중복해서 만들 필요가 없음)
@@ -43,4 +91,3 @@ function randomNumber(min,max){
   return Math.random() * (max-min) + min;
 }
 
-initGame();

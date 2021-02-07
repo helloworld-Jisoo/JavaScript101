@@ -1,65 +1,104 @@
 @import url("https://fonts.googleapis.com/css2?family=Jomhuria&display=swap");
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 body {
   font-family: "Jomhuria", cursive;
   background-color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
+  text-align: center;
 }
-section {
-  background-image: url("./img/background.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 80%;
-  height: 80%;
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+.game {
   margin: auto;
-}
-
-.play {
+  background: url("./img/background.png") center/cover;
+  width: 800px;
+  height: 500px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.playground {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-.play > div,
-.play > button {
-  margin-top: 20px;
-}
-
-.playbtn {
-  font-size: 40px;
-  width: 50px;
-  cursor: pointer;
-  background-color: burlywood;
-}
-.timer {
-  background-color: white;
-  padding: 0px 40px;
-  border: 2px solid;
   border-radius: 20px;
 }
 
-.remain {
-  background-color: salmon;
-  padding: 0px 20px;
-  border-radius: 50%;
-  border: 2px solid;
+.play_header {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
 }
-.remain span {
-  font-size: 50px;
+
+.playbtn {
+  font-size: 24px;
+  background-color: burlywood;
+  border: 4px solid black;
+  width: 60px;
+  height: 60px;
+  transition: transform 300ms ease-in;
+}
+
+.playbtn:hover {
+  transform: scale(1.1);
+}
+
+.timer {
+  width: 100px;
+  background-color: white;
+  text-align: center;
+  border: 4px solid black;
+  border-radius: 20px;
+  font-size: 32px;
+  margin-top: 8px;
+}
+
+.remain {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  background-color: salmon;
+  border-radius: 50%;
+  border: 2px solid black;
   color: white;
+  margin-top: 8px;
+  font-size: 50px;
+}
+.playground {
+  width: 100%;
+  height: 100%;
+  margin-top: 50px;
+  opacity: 0.5;
+}
+
+.pop-up {
+  display: block;
+  margin: auto;
+  width: 300px;
+  height: 140px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.767);
+  color: white;
+  text-align: center;
+  transform: translateY(-150%);
+  border-radius: 20px;
+}
+
+.pup-up--hide {
+  display: none;
+}
+
+.refresh {
+  font-size: 24px;
+  background-color: burlywood;
+  border: 2px solid black;
+  width: 60px;
+  height: 60px;
+  transition: transform 300ms ease-in;
+  border-radius: 50%;
+}
+
+.refresh:hover {
+  transform: scale(1.1);
+}
+.message {
+  display: block;
+  font-size: 40px;
 }

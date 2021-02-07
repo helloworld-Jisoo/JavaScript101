@@ -41,15 +41,15 @@ createCarrot()
 function countdown(){
   let timeleft = 10;
   const countdown = setInterval(function(){
-    if(timeleft<=0){
+    if(timeleft<=1){
       clearInterval(countdown);
     }
     timer.value = 11 - timeleft;
-    timeleft -= 1;
+    timeleft -= 1;  
     timer.innerText =  timeleft;
   }, 1000)
   setTimeout(function () {
-    popUp.innerHTML(`pop-up`);
+    popUp.setAttribute("class", "pop-up");
   }, 1000*10);
 }
 

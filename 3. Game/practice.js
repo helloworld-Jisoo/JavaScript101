@@ -1,7 +1,8 @@
 const playBtn = document.querySelector('.playbtn');
 const remain = document.querySelector('.remain');
 const timer = document.querySelector('.timer');
-
+const field = document.querySelector(".playground");
+const popUp = document.querySelector(".pop-up");
 // PLAYBTN CLICK FOR PLAY
 playBtn.addEventListener('click', () => {
 // PLAYBTN -> STOPBTN
@@ -11,22 +12,21 @@ countdown();
   // REMAIN SET 
    remain.textContent = 10;
   // RANDOM POSITIONING BUGS AND CARROTS
- generateRandom.randomCoordinate();
+
+createBug();
+createBug();
+createBug();
+createBug();
+createBug();
+createCarrot()
+createCarrot()
+createCarrot()
+createCarrot()
+createCarrot()
 
    });
    
-function countdown(){
-  let timeleft = 10;
-  const countdown = setInterval(function(){
-    if(timeleft<=0){
-      clearInterval(countdown);
-    }
-    timer.value = 11 - timeleft;
-    timeleft -= 1;
-    timer.innerText =  timeleft;
-  }, 1000)
-  setTimeout(function () {alert("game over")}, 1000*10);
-}
+
 // PLAYING
   // CLICK CARROT
     // DECREASE REMAIN NUMBERS
@@ -38,23 +38,45 @@ function countdown(){
 
 // GAME OVER POPUP : REPLAY?
 
-class Random{
-  constructor(){
-    this.random = 0;
-  }
- randomCoordinate = function(){
-   const canvas = document.querySelector('.playground');
-  const max_width = canvas.offsetWidth;
-  const max_height = canvas.offsetHeight;
-    let r = [];
-    let x = Math.floor(Math.random()*max_width);
-    let y = Math.floor(Math.random()*max_height);
-    r = [x,y];
-    return r;
-  };
-  
+function countdown(){
+  let timeleft = 10;
+  const countdown = setInterval(function(){
+    if(timeleft<=0){
+      clearInterval(countdown);
+    }
+    timer.value = 11 - timeleft;
+    timeleft -= 1;
+    timer.innerText =  timeleft;
+  }, 1000)
+  setTimeout(function () {
+    popUp.innerHTML(`pop-up`);
+  }, 1000*10);
 }
-function callBug(){
-  bug.setAttribute(`<img class="bug" hidden="hidden" src="/img/bug.png" alt="">`)
+
+  function createBug() {
+    const bugs = new Image(50,50);
+    bugs.src = "img/bug.png";
+    field.appendChild(bugs);
+    const max_width = field.clientWidth;
+    const max_height = field.clientHeight;
+    let x = Math.floor(Math.random() * Math.floor(max_width));
+    let y = Math.floor(Math.random() * Math.floor(max_height));
+    bugs.style.position = "absolute";
+    bugs.style.left = `${x}px`;
+    bugs.style.top = `${y}px`;
+
 }
-const generateRandom = new Random(callBug);
+
+function createCarrot(){
+ const carrots = new Image(50,50);
+    carrots.src = "img/carrot.png";
+    field.appendChild(carrots);
+    const max_width = field.clientWidth;
+    const max_height = field.clientHeight;
+    let x = Math.floor(Math.random() * max_width);
+    let y = Math.floor(Math.random() * max_height);
+    carrots.style.position = "absolute";
+    carrots.style.left = `${x}px`;
+    carrots.style.top = `${y}px`;
+
+}

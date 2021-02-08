@@ -3,11 +3,14 @@
 const CARROT_COUNT = 5;
 const BUG_COUNT = 5;
 const ITEM_MAX_SIZE = 80; //carrot image size = 80x80px
+const GAME_DURATION_SEC = 5;
 // DOM 요소 받아오기
 const playBtn = document.querySelector('.playbtn');
 const remain = document.querySelector('.remain');
 const timer = document.querySelector('.timer');
 const field = document.querySelector('.playground');
+const popUp = document.querySelector('.pop-up');
+
 // field 의 size, position 가져오기
 const fieldRect = field.getBoundingClientRect();
 
@@ -31,12 +34,31 @@ function startGame(){
   initGame();
   showStopBtn();
   showTimerAndRemain();
+  startGameTimer();
 }
 
 function stopGame(){
 
 }
 
+function startGameTimer(){
+  
+  let remainingTimeSec = GAME_DURATION_SEC; // 지정된 시간동안 Interval 이 될수있도록 만들어주기 위한 변수(몇초동안 계속 인터벌을 유지할 것인지)
+  updateTimeText(remainingTimeSec); // Text에 remaining TIME을 보여줌
+  // 위 지역 변수 참고(let time = undefined);
+  time = setInterval(()=>{
+    if(remainingTimeSec <= 0) {
+      clearInterval();
+      return;
+    } 
+    updateTimeText(--remainingTimeSec); // 하나씩 줄여서 표기
+  },1000) // 1,000ms = 1s 1초에 한번씩 업데이트
+}
+function updateTimeText(sec){
+  const minutes = Math.floor(sec/60); // ex) 65/60 => 1 minute
+  const seconds = sec % 60; // 나머지 5초는 여기에
+  timer.innerText = `${minutes}:${seconds}`;
+}
 // play button -> stop button
 function showStopBtn(){
   const icon = document.querySelector('.fa-play');
@@ -60,7 +82,8 @@ function initGame(){
   addItem('bug',BUG_COUNT,'img/bug.png');
 }
 
-// * 함수+인자설정 으로 동일한 일을 할 수 있도록 만들어줌(createBug,createCarrot과 같이 함수를 중복해서 만들 필요가 없음)
+// * 함수+인자설정 으로 동일한 일을 할 수 있도록 만들어줌
+// * (createBug,createCarrot과 같이 함수를 중복해서 만들 필요가 없음)
 // 인자로(클라스이름,갯수,이미지경로)를 추가해준다.
 function addItem(className, count, imgPath){
   // 범위지정

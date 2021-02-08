@@ -102,5 +102,6 @@ button {
 }
 .message {
   display: block;
-  font-size: 40px;
+  font-size: 50px;
+  margin-top: 20px;
 }

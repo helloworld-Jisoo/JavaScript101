@@ -10,7 +10,8 @@ const remain = document.querySelector('.remain');
 const timer = document.querySelector('.timer');
 const field = document.querySelector('.playground');
 const popUp = document.querySelector('.pop-up');
-
+const popUpText = document.querySelector('.message');
+const popUpRefresh = document.querySelector('.refresh')
 // field 의 size, position 가져오기
 const fieldRect = field.getBoundingClientRect();
 
@@ -38,26 +39,35 @@ function startGame(){
 }
 
 function stopGame(){
-
+  stopGameTimer();
+  hideGameBtn();
+  showPopUp('Replay?');
 }
 
+
+function stopGameTimer(){
+  clearInterval(time);
+}
 function startGameTimer(){
-  
   let remainingTimeSec = GAME_DURATION_SEC; // 지정된 시간동안 Interval 이 될수있도록 만들어주기 위한 변수(몇초동안 계속 인터벌을 유지할 것인지)
   updateTimeText(remainingTimeSec); // Text에 remaining TIME을 보여줌
-  // 위 지역 변수 참고(let time = undefined);
-  time = setInterval(()=>{
+  time = setInterval(()=>{   // 위 지역 변수 참고(let time = undefined);
     if(remainingTimeSec <= 0) {
-      clearInterval();
+      clearInterval(time);
       return;
     } 
     updateTimeText(--remainingTimeSec); // 하나씩 줄여서 표기
   },1000) // 1,000ms = 1s 1초에 한번씩 업데이트
 }
+
 function updateTimeText(sec){
   const minutes = Math.floor(sec/60); // ex) 65/60 => 1 minute
   const seconds = sec % 60; // 나머지 5초는 여기에
   timer.innerText = `${minutes}:${seconds}`;
+}
+
+function hideGameBtn(){
+  playBtn.style.visibility = "hidden";
 }
 // play button -> stop button
 function showStopBtn(){
@@ -73,6 +83,11 @@ function showTimerAndRemain(){
 timer.style.visibility = "visible";
 remain.style.visibility = "visible";
 }
+function showPopUp(text){
+  popUpText.innerText = text;
+  popUp.classList.remove('pup-up--hide');
+}
+
 function initGame(){
   field.innerHTML = '';// field의 HTML 을 초기화시켜줘서 게임을 리셋시켜줌
   remain.innerText = CARROT_COUNT; // Remain 갯수 셋팅

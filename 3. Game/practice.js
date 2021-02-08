@@ -34,7 +34,7 @@ createCarrot()
   // CLICK CARROT
     // DECREASE REMAIN NUMBERS
     // GAME WIN IF ALL BUG ARE KILLED IN TIME
-
+popUp.setAttribute("class", "pop-up");
 
   // CLICK BUG -> GAME OVER
 

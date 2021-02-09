@@ -28,10 +28,14 @@ playBtn.addEventListener('click', ()=>{
   } else {
     startGame();
   }
-  started = !started; // started를 반대로 할당해주기
-})
 
+})
+popUpRefresh.addEventListener('click', ()=> {
+  startGame();
+  hidePopUp();
+})
 function startGame(){
+  started = true;
   // 게임이 시작 되었을 떄 벌레와 당근을 생성
   initGame();
   showStopBtn();
@@ -40,9 +44,15 @@ function startGame(){
 }
 
 function stopGame(){
+  started = false;
   stopGameTimer();
   hideGameBtn();
   showPopUp('Replay?');
+}
+function finishGame(win){
+  started = false;
+  hideGameBtn();
+  showPopUp(win? 'You won' : 'You lost');
 }
 
 
@@ -53,8 +63,9 @@ function startGameTimer(){
   let remainingTimeSec = GAME_DURATION_SEC; // 지정된 시간동안 Interval 이 될수있도록 만들어주기 위한 변수(몇초동안 계속 인터벌을 유지할 것인지)
   updateTimeText(remainingTimeSec); // Text에 remaining TIME을 보여줌
   time = setInterval(()=>{   // 위 지역 변수 참고(let time = undefined);
-    if(remainingTimeSec <= 0) {
+    if(remainingTimeSec <= 0) { // timer 의 시간이 끝난다면,
       clearInterval(time);
+      finishGame(CARROT_COUNT === score); // = finishGame(win)
       return;
     } 
     updateTimeText(--remainingTimeSec); // 하나씩 줄여서 표기
@@ -72,7 +83,7 @@ function hideGameBtn(){
 }
 // play button -> stop button
 function showStopBtn(){
-  const icon = document.querySelector('.fa-play');
+  const icon = document.querySelector('.fas');
   // play icon에 있는 class 를 받아와서 stop icon class 추가
   icon.classList.add('fa-stop');
   // 그리고 나서 play icon 제거
@@ -88,7 +99,9 @@ function showPopUp(text){
   popUpText.innerText = text;
   popUp.classList.remove('pup-up--hide');
 }
-
+function hidePopUp(){
+    popUp.classList.add('pup-up--hide');
+}
 function initGame(){
   field.innerHTML = '';// field의 HTML 을 초기화시켜줘서 게임을 리셋시켜줌
   remain.innerText = CARROT_COUNT; // Remain 갯수 셋팅
@@ -114,7 +127,6 @@ function onFieldClick(event) {
   } else if (target.matches('.bug')){
     stopGameTimer(); // 게임 타이머 멈춤
     finishGame(false); //게임 패배
-
   }
 
   function updateScoreBoard(){
@@ -122,11 +134,6 @@ function onFieldClick(event) {
   }
 }
 
-function finishGame(win){
-  started = false;
-  hideGameBtn();
-  showPopUp(win? 'You won' : 'You lost');
-}
 
 // * 함수+인자설정 으로 동일한 일을 할 수 있도록 만들어줌
 // * (createBug,createCarrot과 같이 함수를 중복해서 만들 필요가 없음)

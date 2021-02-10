@@ -49,6 +49,8 @@ button {
   font-size: 32px;
   margin-top: 8px;
   visibility: hidden;
+  user-select: none;
+  cursor: auto;
 }
 
 .remain {
@@ -62,6 +64,8 @@ button {
   margin-top: 8px;
   font-size: 50px;
   visibility: hidden;
+  user-select: none;
+  cursor: auto;
 }
 .playground {
   width: 100%;
@@ -108,5 +112,10 @@ button {
 
 .bug,
 .carrot {
+  transition: transform 100ms ease-in;
+}
+.bug:hover,
+.carrot:hover {
+  transform: scale(1.1);
   cursor: pointer;
 }

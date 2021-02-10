@@ -1,9 +1,9 @@
 'use strict';
 
-const CARROT_COUNT = 5;
-const BUG_COUNT = 5;
+const CARROT_COUNT = 20;
+const BUG_COUNT = 20;
 const ITEM_MAX_SIZE = 80; //carrot image size = 80x80px
-const GAME_DURATION_SEC = 5;
+const GAME_DURATION_SEC = 20;
 // DOM 요소 받아오기
 const playBtn = document.querySelector('.playbtn');
 const remain = document.querySelector('.remain');
@@ -113,6 +113,7 @@ function showStopBtn(){
   icon.classList.add('fa-stop');
   // 그리고 나서 play icon 제거
   icon.classList.remove('fa-play');
+  playBtn.style.visibility = "visible";
 }
 
 function showTimerAndRemain(){

@@ -8,19 +8,31 @@ const GAME_DURATION_SEC = 5;
 const playBtn = document.querySelector('.playbtn');
 const remain = document.querySelector('.remain');
 const timer = document.querySelector('.timer');
+
 const field = document.querySelector('.playground');
+// field 의 size, position 가져오기
+const fieldRect = field.getBoundingClientRect();
+
 const popUp = document.querySelector('.pop-up');
 const popUpText = document.querySelector('.message');
 const popUpRefresh = document.querySelector('.refresh')
-// field 의 size, position 가져오기
-const fieldRect = field.getBoundingClientRect();
+
+// HTMLAudioElement
+const carrotSound = new Audio('./sound/carrot_pull.mp3');
+const alertSound = new Audio('./sound/alert.wav');
+const bgSound = new Audio('./sound/bg.mp3');
+const bugSound = new Audio('./sound/bug_pull.mp3');
+const winSound = new Audio('./sound/game_win.mp3');
+
 
 // 게임의 상태를 기억하고 있는 변수가 있어야 함 (게임 시작 전)
 let started = false;
 let score = 0;
 let time = undefined;
+
 // 이벤트 위임을 이용해서 field 안에서 클릭이 발생하면 어떤것이 클릭 됬냐의 따라 기능 수행
 field.addEventListener('click', onFieldClick); // = ('click', (event)=>onFieldClick(event));
+
 playBtn.addEventListener('click', ()=>{
   // 만약 게임이 시작이 되었다면, 게임을 중지해야 하고 게임이 시작되지 않았다면 게임을 시작해야함.
   if(started) {
@@ -28,12 +40,14 @@ playBtn.addEventListener('click', ()=>{
   } else {
     startGame();
   }
-
 })
+
 popUpRefresh.addEventListener('click', ()=> {
   startGame();
+  score = 0;
   hidePopUp();
 })
+
 function startGame(){
   started = true;
   // 게임이 시작 되었을 떄 벌레와 당근을 생성
@@ -41,6 +55,7 @@ function startGame(){
   showStopBtn();
   showTimerAndRemain();
   startGameTimer();
+  playSound(bgSound);
 }
 
 function stopGame(){
@@ -48,10 +63,20 @@ function stopGame(){
   stopGameTimer();
   hideGameBtn();
   showPopUp('Replay?');
+  playSound(alertSound);
+  stopSound(bgSound);
 }
+
 function finishGame(win){
   started = false;
   hideGameBtn();
+  if(win){
+    playSound(winSound);
+  } else {
+    playSound(bugSound);
+  }
+  stopSound(bgSound); // stop bgSound when the game is finished
+  stopGameTimer();
   showPopUp(win? 'You won' : 'You lost');
 }
 
@@ -119,6 +144,7 @@ function onFieldClick(event) {
   const target = event.target;
   if (target.matches('.carrot')){ // matches란 함수는 css selector가 해당하는지 확인
     target.remove(); // 당근을 없앰
+    playSound(carrotSound);
     score++; // score 점수 추가
     updateScoreBoard(); // UI에 점수 보여주기
     if(score === CARROT_COUNT){ // score 가 5점이 되면
@@ -128,12 +154,18 @@ function onFieldClick(event) {
     stopGameTimer(); // 게임 타이머 멈춤
     finishGame(false); //게임 패배
   }
-
+}
   function updateScoreBoard(){
     remain.innerText = CARROT_COUNT-score;
   }
+function playSound(sound) {
+  sound.currentTime = 0; // initialize the sound
+  sound.play();
 }
 
+function stopSound(sound) {
+  sound.pause();
+}
 
 // * 함수+인자설정 으로 동일한 일을 할 수 있도록 만들어줌
 // * (createBug,createCarrot과 같이 함수를 중복해서 만들 필요가 없음)

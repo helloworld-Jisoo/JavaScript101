@@ -1,9 +1,12 @@
 'use strict';
 
+import PopUp from './PopUp.js';
+//! variables
 const CARROT_COUNT = 20;
 const BUG_COUNT = 20;
 const ITEM_MAX_SIZE = 80; //carrot image size = 80x80px
 const GAME_DURATION_SEC = 20;
+
 // DOM 요소 받아오기
 const playBtn = document.querySelector('.playbtn');
 const remain = document.querySelector('.remain');
@@ -13,9 +16,6 @@ const field = document.querySelector('.playground');
 // field 의 size, position 가져오기
 const fieldRect = field.getBoundingClientRect();
 
-const popUp = document.querySelector('.pop-up');
-const popUpText = document.querySelector('.message');
-const popUpRefresh = document.querySelector('.refresh')
 
 // HTMLAudioElement
 const carrotSound = new Audio('./sound/carrot_pull.mp3');
@@ -24,12 +24,20 @@ const bgSound = new Audio('./sound/bg.mp3');
 const bugSound = new Audio('./sound/bug_pull.mp3');
 const winSound = new Audio('./sound/game_win.mp3');
 
-
+ //! Initialize 
 // 게임의 상태를 기억하고 있는 변수가 있어야 함 (게임 시작 전)
 let started = false;
 let score = 0;
 let time = undefined;
 
+//class(Popup)가 어디에 쓰이는지에 따라 적절한 변수명(gameFinishBanner) 지정 
+const gameFinishBanner = new PopUp(); 
+// callback 등록
+gameFinishBanner.setClickListener(()=>{
+  startGame();
+})
+
+//! Event 
 // 이벤트 위임을 이용해서 field 안에서 클릭이 발생하면 어떤것이 클릭 됬냐의 따라 기능 수행
 field.addEventListener('click', onFieldClick); // = ('click', (event)=>onFieldClick(event));
 
@@ -42,16 +50,11 @@ playBtn.addEventListener('click', ()=>{
   }
 })
 
-popUpRefresh.addEventListener('click', ()=> {
-  startGame();
-  score = 0;
-  hidePopUp();
-})
 
+//! Main functions
 function startGame(){
   started = true;
-  // 게임이 시작 되었을 떄 벌레와 당근을 생성
-  initGame();
+  initGame(); // 게임이 시작 되었을 떄 벌레와 당근을 생성
   showStopBtn();
   showTimerAndRemain();
   startGameTimer();
@@ -60,9 +63,9 @@ function startGame(){
 
 function stopGame(){
   started = false;
-  stopGameTimer();
   hideGameBtn();
-  showPopUp('Replay?');
+  stopGameTimer();
+  gameFinishBanner.showWithText('Replay?');
   playSound(alertSound);
   stopSound(bgSound);
 }
@@ -77,9 +80,10 @@ function finishGame(win){
   }
   stopSound(bgSound); // stop bgSound when the game is finished
   stopGameTimer();
-  showPopUp(win? 'You won' : 'You lost');
+  gameFinishBanner.showWithText(win? 'You won' : 'You lost');
 }
 
+ //! Functions for Timer  
 
 function stopGameTimer(){
   clearInterval(time);
@@ -103,6 +107,8 @@ function updateTimeText(sec){
   timer.innerText = `${minutes}:${seconds}`;
 }
 
+
+ //! Functions for buttons  
 function hideGameBtn(){
   playBtn.style.visibility = "hidden";
 }
@@ -116,18 +122,13 @@ function showStopBtn(){
   playBtn.style.visibility = "visible";
 }
 
+ //! Functions for Score
 function showTimerAndRemain(){
   // display none으로 하면 render tree에서 빠지므로 field size에 영향을 줄 수 있음
 timer.style.visibility = "visible";
 remain.style.visibility = "visible";
 }
-function showPopUp(text){
-  popUpText.innerText = text;
-  popUp.classList.remove('pup-up--hide');
-}
-function hidePopUp(){
-    popUp.classList.add('pup-up--hide');
-}
+
 function initGame(){
   field.innerHTML = '';// field의 HTML 을 초기화시켜줘서 게임을 리셋시켜줌
   remain.innerText = CARROT_COUNT; // Remain 갯수 셋팅
@@ -159,15 +160,6 @@ function onFieldClick(event) {
   function updateScoreBoard(){
     remain.innerText = CARROT_COUNT-score;
   }
-function playSound(sound) {
-  sound.currentTime = 0; // initialize the sound
-  sound.play();
-}
-
-function stopSound(sound) {
-  sound.pause();
-}
-
 // * 함수+인자설정 으로 동일한 일을 할 수 있도록 만들어줌
 // * (createBug,createCarrot과 같이 함수를 중복해서 만들 필요가 없음)
 // 인자로(클라스이름,갯수,이미지경로)를 추가해준다.
@@ -198,6 +190,16 @@ function addItem(className, count, imgPath){
 
 function randomNumber(min,max){
   return Math.random() * (max-min) + min;
+}
+
+ //! Functions for Sound
+function playSound(sound) {
+  sound.currentTime = 0; // initialize the sound
+  sound.play();
+}
+
+function stopSound(sound) {
+  sound.pause();
 }
 
 

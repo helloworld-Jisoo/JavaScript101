@@ -1,6 +1,9 @@
 'use strict';
-const ITEM_MAX_SIZE = 80; //carrot image size = 80x80px
+
 import * as sound from './sound.js';
+
+const ITEM_MAX_SIZE = 80; 
+
 export default class Field{
   constructor(carrotCount, bugCount){
     this.carrotCount = carrotCount;
@@ -16,8 +19,8 @@ export default class Field{
 
   init(){
     this.field.innerHTML = ''; // initialize Field 
-    this._addItem('carrot',this.carrotCount,'./img/carrot.png');
-    this._addItem('bug',this.bugCount,'./img/bug.png');
+    this._addItem('carrot',this.carrotCount,'img/carrot.png');
+    this._addItem('bug',this.bugCount,'img/bug.png');
   }
 
   _addItem(className, count, imgPath){
@@ -40,7 +43,8 @@ export default class Field{
     this.field.appendChild(item);
   }
 }
-  onclick(event){
+  // <this> Binding, Covert 'onClick' to a member of variable and point to the arrow function 
+  onClick = event => {
     const target = event.target;
     if (target.matches('.carrot')){ // matches란 함수는 css selector가 해당하는지 확인
     target.remove(); // 당근을 없앰

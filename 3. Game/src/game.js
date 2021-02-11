@@ -64,22 +64,19 @@ finish(win){
   this.onGameStop && this.onGameStop(win ? 'win' : 'lose');
 }
 
-  
-
 onItemClick = (item) => {
   if(!this.started) {
-    return; // 게임이 시작되지 않으면 함수를 나갈꺼임 (*조건이 맞지 않을때 빨리 함수를 return하는 것이 중요함)
-  } 
-  //이제 원하는 기능 수행
+    return;
+  }
   if(item === 'carrot'){
-    this.score++; // score 점수 추가
-    this.updateScoreBoard(); // UI에 점수 보여주기
-       if(this.score === this.carrotCount){ // score 가 5점이 되면
-        this.finish(true); // 게임 승리
+    this.score++;
+    this.updateScoreBoard();
+       if(this.score === this.carrotCount){ 
+        this.finish(true); // win
     }
   } else if (item === 'bug'){
-    this.stopGameTimer(); // 게임 타이머 멈춤
-    this.finish(false); //게임 패배
+    this.stopGameTimer(); 
+    this.finish(false); // lose
   }
 };
 

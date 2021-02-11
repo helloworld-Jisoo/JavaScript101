@@ -2,7 +2,7 @@
 
 import PopUp from './PopUp.js';
 import Field from './field.js';
-
+import * as sound from './sound.js';
 //! variables
 const CARROT_COUNT = 20;
 const BUG_COUNT = 20;
@@ -13,12 +13,6 @@ const playBtn = document.querySelector('.playbtn');
 const remain = document.querySelector('.remain');
 const timer = document.querySelector('.timer');
 
-// HTMLAudioElement
-const carrotSound = new Audio('./sound/carrot_pull.mp3');
-const alertSound = new Audio('./sound/alert.wav');
-const bgSound = new Audio('./sound/bg.mp3');
-const bugSound = new Audio('./sound/bug_pull.mp3');
-const winSound = new Audio('./sound/game_win.mp3');
 
  //! Initialize 
 // 게임의 상태를 기억하고 있는 변수가 있어야 함 (게임 시작 전)
@@ -70,7 +64,7 @@ function startGame(){
   showStopBtn();
   showTimerAndRemain();
   startGameTimer();
-  playSound(bgSound);
+  sound.playBackground();
 }
 
 function stopGame(){
@@ -78,19 +72,19 @@ function stopGame(){
   hideGameBtn();
   stopGameTimer();
   gameFinishBanner.showWithText('Replay?');
-  playSound(alertSound);
-  stopSound(bgSound);
+  sound.playAlert();
+  sound.stopBackground();
 }
 
 function finishGame(win){
   started = false;
   hideGameBtn();
   if(win){
-    playSound(winSound);
+    sound.playwin;
   } else {
-    playSound(bugSound);
+    sound.playBug;
   }
-  stopSound(bgSound); // stop bgSound when the game is finished
+  sound.stopBackground; // stop bgSound when the game is finished
   stopGameTimer();
   gameFinishBanner.showWithText(win? 'You won' : 'You lost');
 }
@@ -154,14 +148,5 @@ function initGame(){
 // 인자로(클라스이름,갯수,이미지경로)를 추가해준다.
 
 
- //! Functions for Sound
-function playSound(sound) {
-  sound.currentTime = 0; // initialize the sound
-  sound.play();
-}
-
-function stopSound(sound) {
-  sound.pause();
-}
 
 

@@ -1,6 +1,6 @@
 'use strict';
 const ITEM_MAX_SIZE = 80; //carrot image size = 80x80px
-const carrotSound = new Audio('./sound/carrot_pull.mp3');
+import * as sound from './sound.js';
 export default class Field{
   constructor(carrotCount, bugCount){
     this.carrotCount = carrotCount;
@@ -13,7 +13,7 @@ export default class Field{
   setClickListener(onItemClick){
     this.onItemClick = onItemClick;
   }
-  
+
   init(){
     this.field.innerHTML = ''; // initialize Field 
     this._addItem('carrot',this.carrotCount,'./img/carrot.png');
@@ -44,16 +44,12 @@ export default class Field{
     const target = event.target;
     if (target.matches('.carrot')){ // matches란 함수는 css selector가 해당하는지 확인
     target.remove(); // 당근을 없앰
-    playSound(carrotSound);
+    sound.playCarrot();
     this.onItemClick && this.onItemClick('carrot');
     } else if (target.matches('.bug')){
       this.onItemClick && this.onItemClick('bug');
   }
   }
-}
-function playSound(sound) {
-  sound.currentTime = 0; // initialize the sound
-  sound.play();
 }
 function randomNumber(min,max){
   return Math.random() * (max-min) + min;

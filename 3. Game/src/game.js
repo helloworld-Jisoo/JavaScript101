@@ -48,7 +48,7 @@ class Game{
   this.playBtn = document.querySelector('.playbtn');
   this.playBtn.addEventListener('click', () => {
     if(this.started) {
-      this.stop();
+      this.stop(Reason.cancel);
     } else {
       this.start();
     }
@@ -75,28 +75,14 @@ class Game{
   sound.playBackground();
 }
 
-stop(){
+  stop(reason){
   this.started = false;
   this.hideGameBtn();
   this.stopGameTimer();
   sound.playAlert();
   sound.stopBackground();
-  this.onGameStop && this.onGameStop(Reason.cancel);
-} 
-  
-
-finish(win){
-  this.started = false;
-  this.hideGameBtn();
-  if(win){
-    sound.playwin();
-  } else {
-    sound.playBug();
-  }
-  this.stopGameTimer();
-  sound.stopBackground();
-  this.onGameStop && this.onGameStop(win ? Reason.win : Reason.lose);
-}
+  this.onGameStop && this.onGameStop(reason);
+  } 
 
 onItemClick = (item) => {
   if(!this.started) {
@@ -106,11 +92,11 @@ onItemClick = (item) => {
     this.score++;
     this.updateScoreBoard();
        if(this.score === this.carrotCount){ 
-        this.finish(true); // win
+        this.stop(Reason.win);
     }
   } else if (item === 'bug'){
     this.stopGameTimer(); 
-    this.finish(false); // lose
+    this.stop(Reason.lose); 
   }
 };
 
@@ -136,7 +122,7 @@ startGameTimer(){
   this.time = setInterval(()=>{   // 위 지역 변수 참고(let time = undefined);
     if(remainingTimeSec <= 0) { // timer 의 시간이 끝난다면,
       clearInterval(this.time);
-      this.finish(this.carrotCount === this.score);
+      this.stop(this.carrotCount === this.score ? Reason.win : Reason.lose);
       return;
     } 
     this.updateTimeText(--remainingTimeSec); // 하나씩 줄여서 표기

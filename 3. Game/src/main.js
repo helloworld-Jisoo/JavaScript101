@@ -1,13 +1,18 @@
 'use strict';
 
 import PopUp from './popup.js';
-import Game from './game.js';
+import GameBuilder from './game.js';
 
 //class(Popup)가 어디에 쓰이는지에 따라 적절한 변수명(gameFinishBanner) 지정 
 const gameFinishBanner = new PopUp(); 
 
 
-const game = new Game(5, 2, 2);
+const game = new GameBuilder()
+.withGameDuration(5)
+.withCarrotCount(3)
+.withBugCount(3)
+.build();
+
 game.setGameStopListener((reason)=> {
   console.log(reason);
   let message;

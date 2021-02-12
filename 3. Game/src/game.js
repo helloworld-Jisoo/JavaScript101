@@ -1,9 +1,16 @@
 'use strict';
 import Field from './field.js';
 import * as sound from './sound.js';
+//* export가 2개 이상일 때에는 default를 쓰지 않는다
+
+export const Reason = Object.freeze({
+  win : 'win',
+  lose: 'lose',
+  cancel: 'cancel'
+});
 
 // ! Builder pattern (more than 3 constructors)
-export default class GameBuilder{
+export class GameBuilder{
   withGameDuration(duration){
     this.gameDuration = duration; // 전달받은 duration 할당
     return this; // class 자체를 return
@@ -17,7 +24,7 @@ export default class GameBuilder{
     this.bugCount = num;
     return this;
   }
-  // 사용자가 이러한 함수를 이용해서 구체적인 값 설정
+  // 사용자가 🔼이러한 함수를 이용해서 구체적인 값 설정
 
 //! Builder pattern
 build(){ // build pattern 호출 시 Game이라는 새 class를 만들어서 return
@@ -74,7 +81,7 @@ stop(){
   this.stopGameTimer();
   sound.playAlert();
   sound.stopBackground();
-  this.onGameStop && this.onGameStop('cancel');
+  this.onGameStop && this.onGameStop(Reason.cancel);
 } 
   
 
@@ -88,7 +95,7 @@ finish(win){
   }
   this.stopGameTimer();
   sound.stopBackground();
-  this.onGameStop && this.onGameStop(win ? 'win' : 'lose');
+  this.onGameStop && this.onGameStop(win ? Reason.win : Reason.lose);
 }
 
 onItemClick = (item) => {

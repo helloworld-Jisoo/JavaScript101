@@ -1,11 +1,10 @@
 'use strict';
 
 import PopUp from './popup.js';
-import GameBuilder from './game.js';
+import {GameBuilder,  Reason } from './game.js';
 
 //class(Popup)가 어디에 쓰이는지에 따라 적절한 변수명(gameFinishBanner) 지정 
 const gameFinishBanner = new PopUp(); 
-
 
 const game = new GameBuilder()
 .withGameDuration(5)
@@ -17,13 +16,13 @@ game.setGameStopListener((reason)=> {
   console.log(reason);
   let message;
   switch(reason){
-    case 'cancel':
+    case Reason.cancel:
       message = 'Replay?'
     break;
-    case 'win':
+    case Reason.win:
       message = 'You won!'
     break;
-    case 'lose':
+    case Reason.lose:
       message = 'You lost'
     break;
     default:

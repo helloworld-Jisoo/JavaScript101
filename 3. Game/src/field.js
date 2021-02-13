@@ -3,8 +3,11 @@
 import * as sound from './sound.js';
 
 const ITEM_MAX_SIZE = 80; 
-
-export default class Field{
+export const ItemType = Object.freeze({
+  carrot: 'carrot',
+  bug: 'bug'
+});
+export class Field{
   constructor(carrotCount, bugCount){
     this.carrotCount = carrotCount;
     this.bugCount = bugCount;
@@ -19,8 +22,8 @@ export default class Field{
 
   init(){
     this.field.innerHTML = ''; // initialize Field 
-    this._addItem('carrot',this.carrotCount,'img/carrot.png');
-    this._addItem('bug',this.bugCount,'img/bug.png');
+    this._addItem(ItemType.carrot,this.carrotCount,'img/carrot.png');
+    this._addItem(ItemType.bug,this.bugCount,'img/bug.png');
   }
 
   _addItem(className, count, imgPath){
@@ -49,9 +52,9 @@ export default class Field{
     if (target.matches('.carrot')){ // matches란 함수는 css selector가 해당하는지 확인
     target.remove(); // 당근을 없앰
     sound.playCarrot();
-    this.onItemClick && this.onItemClick('carrot');
+    this.onItemClick && this.onItemClick(ItemType.carrot);
     } else if (target.matches('.bug')){
-      this.onItemClick && this.onItemClick('bug');
+      this.onItemClick && this.onItemClick(ItemType.bug);
   }
   }
 }
